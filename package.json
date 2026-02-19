@@ -1,0 +1,23 @@
+{
+  "name": "00.core-api",
+  "version": "1.0.0",
+  "description": "A centralized, production-style RESTful backend service designed to power multiple independent frontend applications from a single scalable platform.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/herfando/core-api.git"
+  },
+  "keywords": [],
+  "author": "Herfando",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/herfando/core-api/issues"
+  },
+  "homepage": "https://github.com/herfando/core-api#readme"
+}
