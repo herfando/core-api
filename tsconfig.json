@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Modern JS
+    "module": "commonjs", // Node standard
+    "rootDir": "./src", // Source folder
+    "outDir": "./dist", // Output build
+    "strict": true, // Semua strict mode TS
+    "esModuleInterop": true, // Import CommonJS gampang
+    "skipLibCheck": true, // Skip type check di lib node_modules
+    "sourceMap": true // Supaya debug mudah
+  }
+}
