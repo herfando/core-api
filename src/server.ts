@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routers/auth";
+import { swaggerDocs } from "./swagger";
 
 dotenv.config();
 
@@ -19,8 +20,11 @@ app.get("/", (req: Request, res: Response) => {
 // ===== ROUTES =====
 app.use("/auth", authRoutes);
 
+// ===== SWAGGER DOCS =====
+const PORT = Number(process.env.PORT) || 5000;
+swaggerDocs(app, PORT);
+
 // ===== START SERVER =====
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
