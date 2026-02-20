@@ -1,9 +1,12 @@
 import { Router } from "express";
+import { register, login } from "../controllers/authController";
 
 const router = Router();
 
-router.get("/test", (req, res) => {
-    res.send("Auth route working");
-});
+// endpoint register
+router.post("/register", register);
+
+// endpoint login
+router.post("/login", login);
 
 export default router;
