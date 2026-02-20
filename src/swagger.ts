@@ -1,0 +1,27 @@
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { Express } from "express";
+
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Core API",
+            version: "1.0.0",
+            description: "Dokumentasi API Backend Project",
+        },
+        servers: [
+            {
+                url: "http://localhost:5000", // sesuaikan port
+            },
+        ],
+    },
+    apis: ["./src/routers/*.ts"], // path file route
+};
+
+const specs = swaggerJsdoc(options);
+
+export const swaggerDocs = (app: Express, port: number) => {
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+    console.log(`Swagger docs running at http://localhost:${port}/api-docs`);
+};
