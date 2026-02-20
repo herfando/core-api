@@ -15,7 +15,10 @@ export const register = async (req: Request, res: Response) => {
 
     try {
         // cek email udah ada belum
-        const userCheck = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        const userCheck = await pool.query(
+            "SELECT * FROM users WHERE email = $1",
+            [email]
+        );
         if (userCheck.rows.length > 0) {
             return res.status(400).json({ message: "Email sudah terdaftar" });
         }
@@ -29,6 +32,7 @@ export const register = async (req: Request, res: Response) => {
             [email, hashedPassword]
         );
 
+        // kirim response user info + message
         res.status(201).json({ user: newUser.rows[0], message: "User berhasil dibuat" });
     } catch (err) {
         console.error(err);
@@ -43,7 +47,11 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
-        const userQuery = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        // cek email ada di DB
+        const userQuery = await pool.query(
+            "SELECT * FROM users WHERE email = $1",
+            [email]
+        );
         if (userQuery.rows.length === 0) {
             return res.status(400).json({ message: "Email belum terdaftar" });
         }
@@ -57,9 +65,18 @@ export const login = async (req: Request, res: Response) => {
         }
 
         // generate JWT
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: user.id, email: user.email }, // payload
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
-        res.status(200).json({ token, message: "Login berhasil" });
+        // kirim response lengkap: user info + token + message
+        res.status(200).json({
+            user: { id: user.id, email: user.email },
+            token,
+            message: "Login berhasil"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error" });
