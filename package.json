@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.3.0",
+    "@types/pg": "^8.16.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   },
