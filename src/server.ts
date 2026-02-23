@@ -1,3 +1,4 @@
+// src/server.ts
 import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -8,8 +9,18 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({ origin: "*" })); // penting agar Swagger bisa fetch endpoint
+// Middleware CORS
+app.use(cors({
+    origin: [
+        "https://core-api-production-7554.up.railway.app", // Swagger live
+        "http://localhost:8080"                              // Dev lokal
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}));
+
+// JSON middleware
 app.use(express.json());
 
 // Root test
@@ -18,12 +29,14 @@ app.get("/", (req: Request, res: Response) => res.send("Core API running"));
 // Routes
 app.use("/auth", authRoutes);
 
-// Swagger
-swaggerDocs(app); // jangan hardcode URL/port
+// Swagger docs
+swaggerDocs(app);
 
 // Start server
-const PORT = Number(process.env.PORT) || 8080; // fallback 8080 untuk dev lokal
+const PORT = Number(process.env.PORT) || 8080;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Swagger docs available at /api-docs`);
+    console.log(`\n🚀 Server running on port ${PORT}`);
+    console.log(`📄 Swagger local (dev): http://localhost:${PORT}/api-docs`);
+    console.log(`🌐 Swagger Railway live: https://core-api-production-7554.up.railway.app/api-docs`);
+    console.log(`🔗 Swagger Try it Out (Auth/Register): https://core-api-production-7554.up.railway.app/api-docs/#/Auth/post_auth_register`);
 });
