@@ -17,7 +17,7 @@ const options = {
         },
         servers: [
             {
-                url: "https://core-api-production-63b0.up.railway.app/api-docs/#/", // sesuaikan port
+                url: "https://core-api-production-63b0.up.railway.app", // sesuaikan port
             },
         ],
     },
