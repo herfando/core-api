@@ -14,15 +14,19 @@ export const register = async (req: Request, res: Response) => {
     try {
         // cek email
         const users = await sql`SELECT * FROM users WHERE email=${email}`;
-        if (users.length > 0) return res.status(400).json({ message: "Email sudah terdaftar" });
+        if (users.length > 0)
+            return res.status(400).json({ message: "Email sudah terdaftar" });
 
         // hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // waktu sekarang untuk create_at
+        const createAt = new Date();
+
         // simpan user
         const newUser = await sql`
-            INSERT INTO users (email, password)
-            VALUES (${email}, ${hashedPassword})
+            INSERT INTO users (email, password, create_at)
+            VALUES (${email}, ${hashedPassword}, ${createAt})
             RETURNING id, email, create_at
         `;
 
@@ -41,16 +45,21 @@ export const login = async (req: Request, res: Response) => {
 
     try {
         const users = await sql`SELECT * FROM users WHERE email=${email}`;
-        if (users.length === 0) return res.status(400).json({ message: "Email belum terdaftar" });
+        if (users.length === 0)
+            return res.status(400).json({ message: "Email belum terdaftar" });
 
         const user = users[0];
         const match = await bcrypt.compare(password, user.password);
         if (!match) return res.status(400).json({ message: "Password salah" });
 
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: user.id, email: user.email },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
         res.status(200).json({
-            user: { id: user.id, email: user.email },
+            user: { id: user.id, email: user.email, create_at: user.create_at },
             token,
             message: "Login berhasil"
         });
