@@ -9,6 +9,11 @@ const options = {
             title: "Core API",
             version: "1.0.0",
             description: "Dokumentasi API Backend Project",
+            contact: {
+                name: "Herfando",
+                url: "https://wa.me/6281234567890"
+            }
+
         },
         servers: [
             {
