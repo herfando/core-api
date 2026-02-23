@@ -11,13 +11,12 @@ const options = {
             description: "Dokumentasi API Backend Project",
             contact: {
                 name: "Herfando",
-                url: "https://wa.me/6281234567890"
-            }
-
+                url: "https://wa.me/6281234567890",
+            },
         },
         servers: [
             {
-                url: "https://core-api-production-63b0.up.railway.app", // sesuaikan port
+                url: "https://core-api-production-63b0.up.railway.app", // URL publik Railway
             },
         ],
     },
@@ -26,7 +25,8 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-export const swaggerDocs = (app: Express, port: number) => {
+// ✅ Hanya terima 1 argumen: app
+export const swaggerDocs = (app: Express) => {
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-    console.log(`Swagger docs running at http://localhost:${port}/api-docs`);
+    console.log(`Swagger docs running at https://core-api-production-63b0.up.railway.app/api-docs`);
 };
