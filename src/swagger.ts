@@ -16,7 +16,7 @@ const options = {
         },
         servers: [
             {
-                url: "https://core-api-production-63b0.up.railway.app", // URL publik Railway
+                url: "https://core-api-production-7554.up.railway.app", // URL publik Railway
             },
         ],
     },
