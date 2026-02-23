@@ -16,7 +16,7 @@ const options = {
         },
         servers: [
             {
-                url: "https://core-api-production-63b0.up.railway.app", // URL publik Railway
+                url: "https://core-api-production-7554.up.railway.app", // URL publik Railway
             },
         ],
     },
@@ -28,5 +28,5 @@ const specs = swaggerJsdoc(options);
 // ✅ Hanya terima 1 argumen: app
 export const swaggerDocs = (app: Express) => {
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-    console.log(`Swagger docs running at https://core-api-production-63b0.up.railway.app/api-docs`);
+    console.log(`Swagger docs running at https://core-api-production-7554.up.railway.app/api-docs`);
 };
