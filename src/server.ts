@@ -9,18 +9,21 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "*" })); // penting agar Swagger bisa fetch endpoint
 app.use(express.json());
 
-// Test Root
+// Root test
 app.get("/", (req: Request, res: Response) => res.send("Core API running"));
 
 // Routes
 app.use("/auth", authRoutes);
 
 // Swagger
-const PORT = Number(process.env.PORT) || 5000;
-swaggerDocs(app, PORT);
+swaggerDocs(app); // jangan hardcode URL/port
 
-// Start Server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start server
+const PORT = Number(process.env.PORT) || 8080; // fallback 8080 untuk dev lokal
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Swagger docs available at /api-docs`);
+});
