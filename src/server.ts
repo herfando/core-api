@@ -2,8 +2,9 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./routers/auth";
+import authRoutes from "./routers/authRoutes";
 import { swaggerDocs } from "./swagger";
+import bookRoutes from "./routers/bookRoutes";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/", (req: Request, res: Response) => res.send("Core API running"));
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/api", bookRoutes);
 
 // Swagger docs
 swaggerDocs(app);
