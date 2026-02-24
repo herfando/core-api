@@ -9,17 +9,12 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
  * =========================
  * REGISTER
  * =========================
- * FRONTEND EXPECT:
- * {
- *   success:boolean,
- *   message:string,
- *   data:{ id,name,email,phoneNumber,role }
- * }
  */
 export const register = async (req: Request, res: Response) => {
     const { name, email, password, phoneNumber } = req.body;
 
     try {
+
         // cek email
         const users = await sql`SELECT * FROM users WHERE email=${email}`;
         if (users.length > 0) {
@@ -32,32 +27,32 @@ export const register = async (req: Request, res: Response) => {
         // hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const role = "user";
+        const createAt = new Date();
 
-        // simpan user
+        // ✅ INSERT HANYA KOLOM YANG ADA DI DB
         const newUser = await sql`
-            INSERT INTO users (name, email, password, phone_number, role)
-            VALUES (${name}, ${email}, ${hashedPassword}, ${phoneNumber}, ${role})
-            RETURNING id, name, email, phone_number, role
+            INSERT INTO users (email, password, create_at)
+            VALUES (${email}, ${hashedPassword}, ${createAt})
+            RETURNING id, email, create_at
         `;
 
         const user = newUser[0];
 
-        // RESPONSE HARUS SESUAI FRONTEND
+        // ✅ RESPONSE SESUAI FRONTEND
         res.status(201).json({
             success: true,
             message: "Register berhasil",
             data: {
-                id: user.id,
-                name: user.name,
+                id: String(user.id),
+                name: name || "",
                 email: user.email,
-                phoneNumber: user.phone_number,
-                role: user.role
+                phoneNumber: phoneNumber || "",
+                role: "USER"
             }
         });
 
     } catch (err) {
-        console.error(err);
+        console.error("REGISTER ERROR:", err);
         res.status(500).json({
             success: false,
             message: "Server error"
@@ -66,21 +61,17 @@ export const register = async (req: Request, res: Response) => {
 };
 
 
-
 /**
  * =========================
  * LOGIN
  * =========================
- * FRONTEND EXPECT:
- * {
- *   token:string,
- *   user:{name,email,phoneNumber}
- * }
  */
 export const login = async (req: Request, res: Response) => {
+
     const { email, password } = req.body;
 
     try {
+
         const users = await sql`SELECT * FROM users WHERE email=${email}`;
 
         if (users.length === 0) {
@@ -92,31 +83,32 @@ export const login = async (req: Request, res: Response) => {
         const user = users[0];
 
         const match = await bcrypt.compare(password, user.password);
+
         if (!match) {
             return res.status(400).json({
                 message: "Password salah"
             });
         }
 
-        // generate JWT
+        // JWT
         const token = jwt.sign(
             { id: user.id, email: user.email },
             JWT_SECRET,
             { expiresIn: "1h" }
         );
 
-        // RESPONSE HARUS SESUAI FRONTEND
+        // RESPONSE SESUAI FRONTEND
         res.status(200).json({
             token,
             user: {
-                name: user.name,
+                name: "",
                 email: user.email,
-                phoneNumber: user.phone_number
+                phoneNumber: ""
             }
         });
 
     } catch (err) {
-        console.error(err);
+        console.error("LOGIN ERROR:", err);
         res.status(500).json({
             message: "Server error"
         });
