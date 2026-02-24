@@ -10,6 +10,7 @@ const router = Router();
  *   description: Endpoint authentication (register & login)
  */
 
+
 /**
  * @swagger
  * /auth/register:
@@ -22,49 +23,59 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
  *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Herfando
  *               email:
  *                 type: string
  *                 example: fando@gogo.com
+ *               phoneNumber:
+ *                 type: string
+ *                 example: 08123456789
  *               password:
  *                 type: string
  *                 example: 12345678
  *     responses:
  *       201:
- *         description: User berhasil dibuat
+ *         description: Register berhasil
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 user:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Register berhasil
+ *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       example: 3
+ *                       example: 18
+ *                     name:
+ *                       type: string
+ *                       example: Herfando
  *                     email:
  *                       type: string
- *                       example: fando@fando.com
- *                     created_at:
+ *                       example: fando@gogo.com
+ *                     phoneNumber:
  *                       type: string
- *                       format: date-time
- *                       example: 2026-02-20T21:05:14.265Z
- *                 message:
- *                   type: string
- *                   example: "User berhasil dibuat"
- *       400:
- *         description: Request invalid
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Email sudah terdaftar"
+ *                       example: 08123456789
+ *                     role:
+ *                       type: string
+ *                       example: USER
  */
 router.post("/register", register);
+
+
 
 /**
  * @swagger
@@ -78,6 +89,9 @@ router.post("/register", register);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - email
+ *               - password
  *             properties:
  *               email:
  *                 type: string
@@ -93,23 +107,21 @@ router.post("/register", register);
  *             schema:
  *               type: object
  *               properties:
- *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       example: 2
- *                     email:
- *                       type: string
- *                       example: fando@gogo.com
  *                 token:
  *                   type: string
  *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *                 message:
- *                   type: string
- *                   example: "Login berhasil"
- *       401:
- *         description: Username atau password salah
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: Herfando
+ *                     email:
+ *                       type: string
+ *                       example: fando@gogo.com
+ *                     phoneNumber:
+ *                       type: string
+ *                       example: 08123456789
  */
 router.post("/login", login);
 
