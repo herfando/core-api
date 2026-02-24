@@ -13,7 +13,9 @@ const app = express();
 app.use(cors({
     origin: [
         "https://core-api-production-7554.up.railway.app", // Swagger live
-        "http://localhost:8080"                              // Dev lokal
+        "http://localhost:8080",
+        "http://localhost:5173",   // React dev
+        "http://localhost:3000",   // Next.js dev                              // Dev lokal
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
