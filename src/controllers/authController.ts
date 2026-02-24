@@ -30,7 +30,19 @@ export const register = async (req: Request, res: Response) => {
             RETURNING id, email, create_at
         `;
 
-        res.status(201).json({ user: newUser[0], message: "User berhasil dibuat" });
+        // generate token JWT
+        const token = jwt.sign(
+            { id: newUser[0].id, email: newUser[0].email },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        // kembalikan user + token
+        res.status(201).json({
+            user: newUser[0],
+            token,
+            message: "User berhasil dibuat dan token dikirim"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error" });
