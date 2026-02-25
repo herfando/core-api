@@ -1,5 +1,5 @@
 import sql from "../models/db";
-import { books } from "../dummyBooks50";
+import { books } from "../dummy/dummyBooks";
 
 const seed = async () => {
     try {
