@@ -1,0 +1,57 @@
+export interface AuthorDummy {
+    name: string;
+    bio: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export const authors: AuthorDummy[] = [
+    { name: "J.R.R. Tolkien", bio: "English writer, poet, philologist, and academic", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "George Orwell", bio: "English novelist and essayist, journalist and critic", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Harper Lee", bio: "American novelist widely known for To Kill a Mockingbird", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "F. Scott Fitzgerald", bio: "American novelist and short story writer", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "J.K. Rowling", bio: "British author of the Harry Potter series", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "J.D. Salinger", bio: "American writer known for The Catcher in the Rye", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Jane Austen", bio: "English novelist known for her six major novels", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Paulo Coelho", bio: "Brazilian lyricist and novelist", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Herman Melville", bio: "American novelist, short story writer, and poet", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Leo Tolstoy", bio: "Russian writer, master of realistic fiction", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Fyodor Dostoevsky", bio: "Russian novelist, short story writer, essayist, and journalist", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Aldous Huxley", bio: "English writer and philosopher", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "C.S. Lewis", bio: "British writer and lay theologian", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Charlotte Brontë", bio: "English novelist and poet, author of Jane Eyre", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Dan Brown", bio: "American author of thriller novels", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Stephen King", bio: "American author of horror, supernatural fiction", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Bram Stoker", bio: "Irish author of Dracula", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Mary Shelley", bio: "English novelist, author of Frankenstein", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Antoine de Saint-Exupéry", bio: "French writer and aviator, author of The Little Prince", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Victor Hugo", bio: "French poet, novelist, and dramatist", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Leo Tolstoy", bio: "Russian writer and philosopher", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Homer", bio: "Ancient Greek epic poet, author of Iliad and Odyssey", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Khaled Hosseini", bio: "Afghan-American novelist, author of The Kite Runner", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Yann Martel", bio: "Canadian author of Life of Pi", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Suzanne Collins", bio: "American television writer and author", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Frank Herbert", bio: "American science fiction author, creator of Dune", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Stieg Larsson", bio: "Swedish journalist and writer", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Margaret Mitchell", bio: "American novelist, author of Gone with the Wind", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "John Green", bio: "American author and vlogger", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Stephenie Meyer", bio: "American novelist, author of Twilight series", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "E. L. James", bio: "British author of Fifty Shades of Grey", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "George R.R. Martin", bio: "American novelist and short story writer, author of A Game of Thrones", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Patrick Rothfuss", bio: "American author of The Kingkiller Chronicle series", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Markus Zusak", bio: "Australian writer, author of The Book Thief", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Cormac McCarthy", bio: "American novelist, author of The Road", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Orson Scott Card", bio: "American author of Ender's Game", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Andy Weir", bio: "American novelist, author of The Martian", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Ernest Cline", bio: "American novelist, author of Ready Player One", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Dan Brown", bio: "American author of Inferno", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Dan Brown", bio: "American author of Digital Fortress", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Dan Brown", bio: "American author of Angels & Demons", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Paula Hawkins", bio: "British author of The Girl on the Train", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Liane Moriarty", bio: "Australian author of Big Little Lies", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Kathryn Stockett", bio: "American author of The Help", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Madeleine L'Engle", bio: "American author of A Wrinkle in Time", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "E.B. White", bio: "American author of Charlotte's Web", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Roald Dahl", bio: "British author of Matilda", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    { name: "Neil Gaiman", bio: "English author of Good Omens", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
+];
