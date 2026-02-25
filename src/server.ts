@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routers/authRoutes";
 import { swaggerDocs } from "./swagger";
 import bookRoutes from "./routers/bookRoutes";
+import categoriesRoutes from './routers/categoriesRoutes';
+import authorsRoutes from './routers/authorsRoutes';
 
 dotenv.config();
 
@@ -32,6 +34,9 @@ app.get("/", (req: Request, res: Response) => res.send("Core API running"));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/books", bookRoutes);
+app.use("/categories", categoriesRoutes);
+app.use("/authors", authorsRoutes);
+
 
 // Swagger docs
 swaggerDocs(app);
