@@ -21,8 +21,16 @@ const mapBook = (b: any) => ({
     categoryName: b.category_name,
     createdAt: b.created_at,
     updatedAt: b.updated_at,
-    countByAuthor: b.count_by_author ? Number(b.count_by_author) : 0, // << ditambah
+    countByAuthor: b.count_by_author ? Number(b.count_by_author) : 0,
 });
+
+// === Helper Function: Count by Author ===
+const getCountByAuthor = async (authorId: number) => {
+    const result = await sql`
+        SELECT COUNT(*) AS count FROM books WHERE author_id = ${authorId}
+    `;
+    return result[0]?.count || 0;
+};
 
 // === 1. List Books (pagination + optional filter) ===
 export const listBooks = async (req: Request, res: Response) => {
@@ -100,14 +108,6 @@ export const createBook = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server error' });
     }
-};
-
-// === Helper Function: Count by Author ===
-const getCountByAuthor = async (authorId: number) => {
-    const result = await sql`
-        SELECT COUNT(*) AS count FROM books WHERE author_id = ${authorId}
-    `;
-    return result[0]?.count || 0;
 };
 
 // === 3. Book Detail ===
@@ -212,7 +212,7 @@ export const deleteBook = async (req: Request, res: Response) => {
     }
 };
 
-// === 6. Recommend Books === (random simple example)
+// === 6. Recommend Books ===
 export const recommendBooks = async (req: Request, res: Response) => {
     try {
         const { limit = 10 } = req.query;
@@ -233,6 +233,23 @@ export const recommendBooks = async (req: Request, res: Response) => {
         const books = booksData.map(mapBook);
 
         res.json({ success: true, message: 'Recommended books', data: { mode: 'random', books } });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+// === 7. List Popular Authors (baru) ===
+export const listPopularAuthors = async (req: Request, res: Response) => {
+    try {
+        const authors = await sql`
+            SELECT a.id, a.name, a.bio, COUNT(b.id) AS count_by_author
+            FROM authors a
+            LEFT JOIN books b ON b.author_id = a.id
+            GROUP BY a.id
+            ORDER BY count_by_author DESC
+        `;
+        res.json({ success: true, message: 'Popular authors fetched', data: { authors } });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server error' });
