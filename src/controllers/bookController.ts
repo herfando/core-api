@@ -21,6 +21,7 @@ const mapBook = (b: any) => ({
     categoryName: b.category_name,
     createdAt: b.created_at,
     updatedAt: b.updated_at,
+    countByAuthor: b.count_by_author ? Number(b.count_by_author) : 0, // << ditambah
 });
 
 // === 1. List Books (pagination + optional filter) ===
@@ -30,7 +31,11 @@ export const listBooks = async (req: Request, res: Response) => {
         const offset = (Number(page) - 1) * Number(limit);
 
         const booksData = await sql`
-      SELECT b.*, a.name AS author_name, c.name AS category_name
+      SELECT 
+        b.*, 
+        a.name AS author_name, 
+        c.name AS category_name,
+        (SELECT COUNT(*) FROM books WHERE author_id = a.id) AS count_by_author
       FROM books b
       JOIN authors a ON b.author_id = a.id
       JOIN categories c ON b.category_id = c.id
@@ -85,7 +90,10 @@ export const createBook = async (req: Request, res: Response) => {
       RETURNING *
     `;
 
-        const newBook = mapBook(newBookData[0]);
+        const newBook = mapBook({
+            ...newBookData[0],
+            count_by_author: await getCountByAuthor(newBookData[0].author_id),
+        });
 
         res.status(201).json({ success: true, message: 'Book created', data: newBook });
     } catch (err) {
@@ -94,13 +102,25 @@ export const createBook = async (req: Request, res: Response) => {
     }
 };
 
+// === Helper Function: Count by Author ===
+const getCountByAuthor = async (authorId: number) => {
+    const result = await sql`
+        SELECT COUNT(*) AS count FROM books WHERE author_id = ${authorId}
+    `;
+    return result[0]?.count || 0;
+};
+
 // === 3. Book Detail ===
 export const bookDetail = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
         const bookData = await sql`
-      SELECT b.*, a.name AS author_name, c.name AS category_name
+      SELECT 
+        b.*, 
+        a.name AS author_name, 
+        c.name AS category_name,
+        (SELECT COUNT(*) FROM books WHERE author_id = a.id) AS count_by_author
       FROM books b
       JOIN authors a ON b.author_id = a.id
       JOIN categories c ON b.category_id = c.id
@@ -160,7 +180,10 @@ export const updateBook = async (req: Request, res: Response) => {
         if (!updatedData.length)
             return res.status(404).json({ success: false, message: 'Book not found' });
 
-        const updatedBook = mapBook(updatedData[0]);
+        const updatedBook = mapBook({
+            ...updatedData[0],
+            count_by_author: await getCountByAuthor(updatedData[0].author_id),
+        });
         res.json({ success: true, message: 'Book updated', data: updatedBook });
     } catch (err) {
         console.error(err);
@@ -195,7 +218,11 @@ export const recommendBooks = async (req: Request, res: Response) => {
         const { limit = 10 } = req.query;
 
         const booksData = await sql`
-      SELECT b.*, a.name AS author_name, c.name AS category_name
+      SELECT 
+        b.*, 
+        a.name AS author_name, 
+        c.name AS category_name,
+        (SELECT COUNT(*) FROM books WHERE author_id = a.id) AS count_by_author
       FROM books b
       JOIN authors a ON b.author_id = a.id
       JOIN categories c ON b.category_id = c.id
