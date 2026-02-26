@@ -1,7 +1,8 @@
 // src/routes/authorsRoutes.ts
 import { Router, Request, Response } from "express";
-import sql from "../models/db"; // pastikan ini koneksi postgres-mu
 import { Author, AuthorCreateInput, AuthorsListResponse, AuthorWithBooksResponse, BookByAuthor } from "../types/authorsType";
+import { listAuthors } from "../controllers/authorsController";
+import sql from "../models/db"; // koneksi postgres
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const router = Router();
  * @swagger
  * /authors:
  *   get:
- *     summary: Get all authors
+ *     summary: Get all authors with book count
  *     tags: [Authors]
  *     responses:
  *       200:
@@ -38,19 +39,8 @@ const router = Router();
  *                       items:
  *                         $ref: '#/components/schemas/Author'
  */
-router.get("/", async (req: Request, res: Response) => {
-    try {
-        const authors: Author[] = await sql<Author[]>`SELECT * FROM authors ORDER BY id`;
-        const response: AuthorsListResponse = {
-            success: true,
-            message: "Authors fetched successfully",
-            data: { authors },
-        };
-        res.json(response);
-    } catch (err) {
-        res.status(500).json({ success: false, message: "Error fetching authors" });
-    }
-});
+// Route baru pakai controller clean
+router.get("/", listAuthors);
 
 /**
  * @swagger
@@ -225,79 +215,3 @@ router.get("/:id/books", async (req: Request, res: Response) => {
 });
 
 export default router;
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     Author:
- *       type: object
- *       properties:
- *         id:
- *           type: number
- *         name:
- *           type: string
- *         bio:
- *           type: string
- *         createdAt:
- *           type: string
- *         updatedAt:
- *           type: string
- *     AuthorCreateInput:
- *       type: object
- *       required:
- *         - name
- *         - bio
- *       properties:
- *         name:
- *           type: string
- *         bio:
- *           type: string
- *     BookByAuthor:
- *       type: object
- *       properties:
- *         id: { type: number }
- *         title: { type: string }
- *         description: { type: string }
- *         isbn: { type: string }
- *         publishedYear: { type: number }
- *         coverImage: { type: string, nullable: true }
- *         price: { type: number }
- *         stock: { type: number }
- *         isActive: { type: boolean }
- *         rating: { type: number }
- *         reviewCount: { type: number }
- *         authorId: { type: number }
- *         categoryId: { type: number }
- *         createdAt: { type: string }
- *         updatedAt: { type: string }
- *         availableCopies: { type: number }
- *         borrowCount: { type: number }
- *         totalCopies: { type: number }
- *     AuthorsListResponse:
- *       type: object
- *       properties:
- *         success: { type: boolean }
- *         message: { type: string }
- *         data:
- *           type: object
- *           properties:
- *             authors:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Author'
- *     AuthorWithBooksResponse:
- *       type: object
- *       properties:
- *         success: { type: boolean }
- *         message: { type: string }
- *         data:
- *           type: object
- *           properties:
- *             author:
- *               $ref: '#/components/schemas/Author'
- *             books:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/BookByAuthor'
- */
