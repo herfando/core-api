@@ -19,6 +19,7 @@ app.use(cors({
         "http://localhost:8080",
         "http://localhost:5173",   // React dev
         "http://localhost:3000",   // Next.js dev                              // Dev lokal
+        "https://library-web-mvp.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
